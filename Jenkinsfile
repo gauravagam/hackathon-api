@@ -8,6 +8,7 @@ pipeline {
                 nodejs(nodeJSInstallationName: 'nodejs') {
                     sh 'rm -rf node_modules'
                     sh 'npm install'
+                    sh 'npm audit'
                     sh 'npm test'
                 }
             }
