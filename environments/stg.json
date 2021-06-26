@@ -1,0 +1,10 @@
+{
+  "app": {
+    "name": "hackathon",
+    "port": "3001",
+    "logLevel": "info",
+    "redisAuth" : "",
+    "URL": "https//localhost:3001",
+    "MONGODB_URI":"mongodb+srv://admin:0017@cluster0.hgmte.mongodb.net/hackathondb?retryWrites=true&w=majority"
+  }
+}

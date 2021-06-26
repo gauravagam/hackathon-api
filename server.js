@@ -1,16 +1,20 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
-const config = require("./config");
+process.env.NODE_CONFIG_DIR = `${__dirname}/environments/`;
+const config = require("config");
+const MONGODB_URI = config.get('app.MONGODB_URI');
+const PORT = config.get('app.MONGODB_URI');
+const logger = require('./src/utils/logger');
 
-const server = express();
+const app = express();
 
-server.use(bodyParser.urlencoded({ extended: true }));
-server.use(express.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(express.json());
 
-server.listen(config.PORT, () => {
+app.listen(PORT, () => {
   mongoose.set("useFindAndModify", false);
-  mongoose.connect(config.MONGODB_URI, {
+  mongoose.connect(MONGODB_URI, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
     useCreateIndex: true,
@@ -20,10 +24,10 @@ server.listen(config.PORT, () => {
 const db = mongoose.connection;
 
 db.on("error", (err) => {
-  console.log(err);
+  logger.error(err);
 });
 
 db.once("open", () => {
-  require("./routes/user")(server);
-  console.log(`Server started on port ${config.PORT}`);
+  require('./src/route')(app);
+  logger.info(`Server started on port ${PORT}`);
 });
