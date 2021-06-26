@@ -6,6 +6,7 @@ pipeline {
             steps {
                 echo 'Building....'
                 nodejs(nodeJSInstallationName: 'nodejs') {
+                    sh 'rm -rf node_modules'
                     sh 'npm install --only=dev'
                     sh 'npm test'
                 }
